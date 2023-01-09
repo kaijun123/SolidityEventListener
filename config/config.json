@@ -1,0 +1,9 @@
+{
+  "development": {
+    "database": "solidity-db",
+    "user": "postgres",
+    "password": "",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
