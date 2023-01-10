@@ -5,15 +5,16 @@ import { ModelUtils } from "../utils/model";
 
 export const up = async (queryInterface: QueryInterface) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
+    // your migration here
     console.log("creating transfer table");
     await queryInterface.createTable('transfer', {
       ...ModelUtils.standardColumns,
       fromAddress: ModelUtils.genericString(true),
       toAddress: ModelUtils.genericString(true),
-      amount: ModelUtils.number(true),
+      amount: ModelUtils.genericString(true),
       transactionHash: ModelUtils.genericString(true),
       blockNumber: ModelUtils.number(true),
-      eventName: ModelUtils.jsonType(true)
+      eventData: ModelUtils.jsonType(true)
     }, { transaction });
   })
 };

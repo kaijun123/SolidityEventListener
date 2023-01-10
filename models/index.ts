@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import config from "datasource";
+import config from "../datasource";
 
 const { database, user, password, port, host, dialect } = config
 export const sequelize = new Sequelize(database, user, password, { dialect, host, port })
