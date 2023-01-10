@@ -1,13 +1,11 @@
-import config from "../datasource";
+import config from "../config/config";
 import fs from "fs"
 
   ;
 (async () => {
-  const nodeEnv = process.env.environment || "development"
-  const config2 = config
-  delete config2.port
+  const nodeEnv = process.env.ENVIRONMENT || "development"
   const configJson = JSON.stringify({
-    [nodeEnv]: config2
+    [nodeEnv]: config[nodeEnv]
   }, null, 2)
   console.log(configJson)
   await fs.writeFile("./config/config.json", configJson, (err) => {

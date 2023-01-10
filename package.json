@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "script": "ts-node",
-    "start": "ts-node server.ts",
+    "start": "nodemon ./src/server.ts",
     "db:create": "npm run script ./scripts/create.ts",
     "db:drop": "npm run script ./scripts/drop.ts",
     "db:migrate": "sequelize-cli db:migrate"
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "express": "^4.18.2",
@@ -24,8 +25,10 @@
     "sequelize": "^6.28.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/node": "^18.11.18",
+    "nodemon": "^2.0.20",
     "sequelize-cli": "^6.5.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"

@@ -1,0 +1,1 @@
+Note: The sequelizerc file is used to specify the location of the files that are used by the sequelize cli. There are default file locations in which the cli will search for. But if the file location/ naming has changed, you can specify their location in the sequelizerc file.

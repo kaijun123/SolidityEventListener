@@ -1,7 +1,7 @@
 "use strict";
 
 import { QueryInterface } from "sequelize";
-import { ModelUtils } from "../utils/model";
+import { ModelUtils } from "../src/utils/model";
 
 export const up = async (queryInterface: QueryInterface) => {
   await queryInterface.sequelize.transaction(async (transaction) => {

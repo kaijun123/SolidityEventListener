@@ -1,5 +1,5 @@
 const pgtools = require('pgtools')
-import config from "../datasource"
+import config from "../config/config"
 
 export { } // what is going on here?
 
