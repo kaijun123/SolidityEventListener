@@ -33,3 +33,6 @@ Note: sequlize-cli actually has functions to create models and migration scripts
 - `template0` and `template1` are template tables provided by postgres when installed
 - DO NOT delete them, if not you will not be able to create new db
 - To connect to your db, run the `psql -d <DATABASE_NAME> -U <USER_NAME`. By default, postgres should create a postgres user and db. Hence, running `psql -d postgres -U postgres` should allow you to enter the psql client via terminal
+
+### Express
+- Middleware: To create a controller, it is better to use a middleware to specify the controller logic. A middleware is just a function that takes in `req`, `res` and `next`. If there are multiple middlewares, the middlewares expect the last one, will need to call `next()`. But for our controller, no need to call `next()`. `req` and `res` functions remain the same.
