@@ -34,7 +34,17 @@ npm run db:migrate
 npm run start
 ```
 
+#### Tutorials:
+- Best guide for setting up postgres, sequelize: <https://medium.com/bb-tutorials-and-thoughts/how-to-build-nodejs-rest-api-with-express-and-postgresql-674d96d5cb8f>
+- sequelize: https://medium.com/@rachealkuranchie/node-js-authentication-with-postgresql-sequelize-and-express-js-20ae773da4c9
+- AWS RDS:
+  - <https://aws.amazon.com/getting-started/hands-on/create-connect-postgresql-db/>
+  - <https://ruddha2001.medium.com/working-with-aws-rds-postgresql-a415ea21b338>
+  - <https://medium.com/@unnipbvr/hosting-a-postgres-database-in-aws-b63d8c2c56ae>
+- AWS EC2: <https://betterprogramming.pub/deploying-a-basic-express-api-on-amazon-ec2-eea0b54a825>
+
 #### TODO:
 - Remove config/config.json. Change .sequelizerc to use config.js, then use .env file to specify environment when running migrate files
 - Test sequelize-cli for create and drop db, and get rid of create and drop scripts
-- Connect to AWS RDB and host DB on AWS
+- Connect to AWS RDS and host DB on AWS
+- Deply ecpress server on AWS EC2 instance
