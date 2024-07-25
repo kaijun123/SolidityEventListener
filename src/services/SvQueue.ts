@@ -1,4 +1,5 @@
 import amqlib, { Channel, Connection } from "amqplib"
+import Transfer from "../models/Transfer"
 
 const connect = async (url: string): Promise<Connection> => {
   const connection = await amqlib.connect(url)
@@ -127,11 +128,12 @@ export class Consumer {
   }
 
   public async consume() {
-    await this.channel!.consume(this.queueName, (msg) => {
+    await this.channel!.consume(this.queueName, async (msg) => {
       if (msg !== null) {
-        console.log('Received:', msg.content.toString());
+        const payload = JSON.parse(msg.content.toString())
+        // console.log('Received:', payload);
+        await Transfer.create(payload)
 
-        // console.log('Received:', msg.content.toString());
         this.channel!.ack(msg);
       } else {
         console.log('Consumer cancelled by server');

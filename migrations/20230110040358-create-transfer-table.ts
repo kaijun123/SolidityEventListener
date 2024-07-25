@@ -6,6 +6,7 @@ import { ModelUtils } from "../src/utils/model";
 export const up = async (queryInterface: QueryInterface) => {
   await queryInterface.sequelize.transaction(async (transaction) => {
     // your migration here
+    await queryInterface.sequelize.query("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";", { transaction });
     console.log("creating transfer table");
     await queryInterface.createTable('transfer', {
       ...ModelUtils.standardColumns,

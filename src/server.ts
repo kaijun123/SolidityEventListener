@@ -1,5 +1,5 @@
 import { WebSocketProvider } from "@ethersproject/providers"
-import * as dotenv from 'dotenv'
+import * as dotenv from "dotenv"
 import { BigNumber, ethers } from "ethers"
 import express, { json, Request, Response } from "express"
 import Transfer from "./models/Transfer"
@@ -16,7 +16,19 @@ dotenv.config()
 
   const port = process.env.PORT || 3000
 
+  const url = "amqp://localhost:5672"
+  const queueManager = new QueueManager(url)
+  const { consumerManager, producerManager } = await queueManager.init()
+  const queueName = "transfer"
+
+  // router.get("/produce", async (req: Request, res: Response) => {
+  //   const producer = await producerManager.add(queueName)
+  //   producer.send("hello")
+  //   res.send("success")
+  // })
+
   async function listen() {
+    const producer = await producerManager.add(queueName)
     const usdcAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // USDT
     const provider: WebSocketProvider = new ethers.providers.WebSocketProvider(
       `${process.env!.WEBSOCKET!}`
@@ -27,30 +39,21 @@ dotenv.config()
       const transactionHash: string = event.transactionHash
       const blockNumber: number = event.blockNumber
       try {
-        await Transfer.create({
-          fromAddress: from,
-          toAddress: to,
-          amount,
-          transactionHash,
-          blockNumber,
-          eventData: event
-        })
+        producer.send(
+          JSON.stringify({
+            fromAddress: from,
+            toAddress: to,
+            amount,
+            transactionHash,
+            blockNumber,
+            eventData: event
+          })
+        )
       } catch (err) {
         console.error(err)
       }
     })
   }
-
-  const url = "amqp://localhost:5672"
-  const queueManager = new QueueManager(url)
-  const { consumerManager, producerManager } = await queueManager.init()
-  const queueName = "test"
-
-  router.get("/produce", async (req: Request, res: Response) => {
-    const producer = await producerManager.add(queueName)
-    producer.send("hello")
-    res.send("success")
-  })
 
   app.use(router)
   app.use(json())
@@ -59,7 +62,7 @@ dotenv.config()
     console.log(`Listening to port ${port}`)
     try {
       await consumerManager.add(queueName)
-      // await listen()
+      await listen()
     }
     catch (err) {
       console.log(err)

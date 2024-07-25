@@ -1,6 +1,6 @@
 import { Router } from "express";
-import transfer from "./transfer"
-import test from "./test"
+import test from "./test";
+import transfer from "./transfer";
 
 const router = Router()
 
