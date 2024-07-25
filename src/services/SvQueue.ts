@@ -65,11 +65,11 @@ export class ConsumerManager {
     console.log("creating a connection for ConsumerManager")
   }
 
-  public async add(queueName: string, number: number = 1) {
+  public async add(queueName: string, callback: (payload: any) => Promise<void>, number: number = 1) {
     for (let i = 0; i < number; i++) {
       const consumer = new Consumer(queueName, this.connection!)
       await consumer.init()
-      await consumer.consume()
+      await consumer.consume(callback)
     }
   }
 }
@@ -127,12 +127,12 @@ export class Consumer {
     this.channel = channel
   }
 
-  public async consume() {
+  public async consume(callback: (payload: any) => Promise<void>) {
     await this.channel!.consume(this.queueName, async (msg) => {
       if (msg !== null) {
         const payload = JSON.parse(msg.content.toString())
+        await callback(payload)
         // console.log('Received:', payload);
-        await Transfer.create(payload)
 
         this.channel!.ack(msg);
       } else {

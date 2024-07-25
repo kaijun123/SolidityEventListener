@@ -1,11 +1,11 @@
 const pgtools = require('pgtools');
-import config from "../config/config"
+import config from "../sql/config"
 import * as dotenv from "dotenv"
 dotenv.config()
 
-export { } // what is going on here?
 
 // https://www.npmjs.com/package/pgtools
+;
 (() => {
   const env = process.env.ENVIRONMENT || "development"
   const { database, user, password, port, host } = config[env]

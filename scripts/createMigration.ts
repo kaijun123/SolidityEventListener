@@ -4,7 +4,7 @@ import path from "path";
 
 const TEMPLATE = `
 "use strict";
-require("../setup");
+require("../sql/setup");
 
 import { QueryInterface } from "sequelize";
 

@@ -1,0 +1,15 @@
+[app]
+url = "amqp://localhost:5672"
+port = 3000
+ws = "wss://eth-mainnet.g.alchemy.com/v2/v6q3Yj01H1iH4T2ctJ5Nf76cnlOvOstM"
+environment = "development"
+
+[[contracts]]
+name = "usdt"
+address = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+events = ["Transfer", "Approval"]
+
+[[contracts]]
+name = "dai"
+address = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+events = ["Transfer", "Approval"]

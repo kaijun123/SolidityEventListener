@@ -6,6 +6,7 @@ class Transfer extends Model { };
 
 Transfer.init({
   ...ModelUtils.standardColumns,
+  contractAddress: ModelUtils.genericString(true),
   fromAddress: ModelUtils.genericString(true),
   toAddress: ModelUtils.genericString(true),
   amount: ModelUtils.genericString(true),

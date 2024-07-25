@@ -1,72 +1,25 @@
-import { WebSocketProvider } from "@ethersproject/providers"
-import * as dotenv from "dotenv"
-import { BigNumber, ethers } from "ethers"
-import express, { json, Request, Response } from "express"
-import Transfer from "./models/Transfer"
-import ABI from "./utils/abi.json"
-import router from "./routes/index"
+import express, { json } from "express"
+// import ABI from "./utils/abi.json"
 import cors from "cors"
-import { QueueManager } from "./services/SvQueue"
-dotenv.config()
-
+import router from "./routes/index"
+import SvEvent from "./services/SvEvent"
+import config from "./setup"
 
   ;
 (async () => {
+  config.__configure("./config")
+
   const app = express()
 
-  const port = process.env.PORT || 3000
-
-  const url = "amqp://localhost:5672"
-  const queueManager = new QueueManager(url)
-  const { consumerManager, producerManager } = await queueManager.init()
-  const queueName = "transfer"
-
-  // router.get("/produce", async (req: Request, res: Response) => {
-  //   const producer = await producerManager.add(queueName)
-  //   producer.send("hello")
-  //   res.send("success")
-  // })
-
-  async function listen() {
-    const producer = await producerManager.add(queueName)
-    const usdcAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // USDT
-    const provider: WebSocketProvider = new ethers.providers.WebSocketProvider(
-      `${process.env!.WEBSOCKET!}`
-    );
-    const contract = new ethers.Contract(usdcAddress, ABI, provider);
-    contract.on("Transfer", async (from, to, value, event) => {
-      const amount: string = BigNumber.from(value).toString()
-      const transactionHash: string = event.transactionHash
-      const blockNumber: number = event.blockNumber
-      try {
-        producer.send(
-          JSON.stringify({
-            fromAddress: from,
-            toAddress: to,
-            amount,
-            transactionHash,
-            blockNumber,
-            eventData: event
-          })
-        )
-      } catch (err) {
-        console.error(err)
-      }
-    })
-  }
+  const port = config.app.port || 3000
+  const svEvent = new SvEvent(config.app.url)
+  await svEvent.init()
 
   app.use(router)
   app.use(json())
   app.use(cors())
   app.listen(port, async () => {
     console.log(`Listening to port ${port}`)
-    try {
-      await consumerManager.add(queueName)
-      await listen()
-    }
-    catch (err) {
-      console.log(err)
-    }
   })
 })()
 

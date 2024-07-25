@@ -1,5 +1,5 @@
 const pgtools = require('pgtools');
-import config from "../config/config"
+import config from "../sql/config"
 import * as dotenv from "dotenv"
 dotenv.config()
 
@@ -17,5 +17,3 @@ dotenv.config()
     console.log("database created", database);
   })
 })()
-
-// export { } // what is going on here?
